@@ -32,14 +32,17 @@ namespace PokemonUwp
         public MainPage()
         {
             this.InitializeComponent();      
-            Onload();
         }    
 
         InterstitialAd MyVideoAd = new InterstitialAd();
         string MyAppId;
         string MyAdUnitId;
 
-        private void Onload()
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            await Onload();
+        }
+        private async Task Onload()
         {
             AdMediator_BFF56C.AdSdkTimeouts[AdSdkNames.MicrosoftAdvertising] = TimeSpan.FromSeconds(10);
             bool isHardwareButtonsAPIPresent =
@@ -67,19 +70,14 @@ namespace PokemonUwp
                 MyAdUnitId = "11633528";
             }
 
-        }
-
-        private async void button_Click(object sender, RoutedEventArgs e)
-        {
-           
             await Get_Gps();
 
-           MyVideoAd.AdReady += MyVideoAd_AdReady;
-           MyVideoAd.ErrorOccurred += MyVideoAd_ErrorOccurred;
+            MyVideoAd.AdReady += MyVideoAd_AdReady;
+            MyVideoAd.ErrorOccurred += MyVideoAd_ErrorOccurred;
             MyVideoAd.Completed += MyVideoAd_Completed;
             MyVideoAd.Cancelled += MyVideoAd_Cancelled;
-           
-         
+
+
 
             MyVideoAd.RequestAd(AdType.Video, MyAppId, MyAdUnitId);
 
@@ -99,7 +97,7 @@ namespace PokemonUwp
 
 
             MapControl1.Center = myLocation;
-            MapControl1.ZoomLevel = 12;
+            MapControl1.ZoomLevel = 16;
             MapControl1.LandmarksVisible = true;
         }
 
