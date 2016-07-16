@@ -14,6 +14,7 @@ using Windows.Foundation.Collections;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Maps;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
@@ -37,6 +38,8 @@ namespace PokemonUwp
         InterstitialAd MyVideoAd = new InterstitialAd();
         string MyAppId;
         string MyAdUnitId;
+        string add;
+        List<string> poke = new List<string>();
 
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -71,12 +74,32 @@ namespace PokemonUwp
             }
 
             await Get_Gps();
-
+         
             MyVideoAd.AdReady += MyVideoAd_AdReady;
             MyVideoAd.ErrorOccurred += MyVideoAd_ErrorOccurred;
             MyVideoAd.Completed += MyVideoAd_Completed;
             MyVideoAd.Cancelled += MyVideoAd_Cancelled;
-
+            add = "Pikachu";
+            poke.Add(add);
+            add = "Charmendar";
+            poke.Add(add);
+            add = "Bulbasaur";
+            poke.Add(add);
+            add = "pichu";
+            poke.Add(add);
+            add = "Raichu";
+            poke.Add(add);
+            add = "Squirtle";
+            poke.Add(add);
+            add = "Charizard";
+            poke.Add(add);
+            add = "Diglet";
+            poke.Add(add);
+            add = "Snorlax";
+            poke.Add(add);
+            add = "Jigglepuff";
+            poke.Add(add);
+            lol();
 
 
             MyVideoAd.RequestAd(AdType.Video, MyAppId, MyAdUnitId);
@@ -88,6 +111,7 @@ namespace PokemonUwp
 
         }
 
+        MapIcon mapIcon1 = new MapIcon();
         private async Task Get_Gps()
         {
 
@@ -95,12 +119,25 @@ namespace PokemonUwp
             Geoposition pos = await geolocator.GetGeopositionAsync();
             Geopoint myLocation = pos.Coordinate.Point;
 
-
+           
+            mapIcon1.Location = myLocation;
+            mapIcon1.NormalizedAnchorPoint = new Point(0.5, 1.0);
+            mapIcon1.Title = "Space Needle";
+            mapIcon1.ZIndex = 0;
+            MapControl1.MapElements.Add(mapIcon1);
             MapControl1.Center = myLocation;
             MapControl1.ZoomLevel = 16;
-            MapControl1.LandmarksVisible = true;
         }
 
+        async Task lol()
+        {
+            Random rnd = new Random();
+            int Random = rnd.Next(0, 9);
+            mapIcon1.Title = poke[Random];
+            await Task.Delay(5000);
+            await lol();
+        }
+            
         void MyVideoAd_AdReady(object sender, object e)
         {
             AdMediator_096175.Pause();
