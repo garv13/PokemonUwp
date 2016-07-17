@@ -99,7 +99,7 @@ namespace PokemonUwp
             poke.Add(add);
             add = "Jigglepuff";
             poke.Add(add);
-            lol();
+            await lol();
 
 
             MyVideoAd.RequestAd(AdType.Video, MyAppId, MyAdUnitId);
